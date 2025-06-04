@@ -12,7 +12,8 @@ body {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    overscroll-behavior-y: contain;
+    overscroll-behavior: none; 
+    touch-action: none;
 }
 .header {
     display:flex;
