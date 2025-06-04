@@ -4,10 +4,10 @@ html{
     font-family: 'M PLUS Rounded 1c', sans-serif;
     touch-action: manipulation;
 }
-
 body {
     margin: 0;
     padding: 0;
+    color:#000;
 }
 .header {
     display:flex;
@@ -126,6 +126,8 @@ th:first-child {
     font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: clamp(0px,3rem,5vh);
     border-radius: 0;
+    background-color: #ffffff;
+    
 }
 /*#endregion=====カレンダーテーブル=====*/
 /*#region=====モーダル=====*/

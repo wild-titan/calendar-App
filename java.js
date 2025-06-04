@@ -59,7 +59,7 @@ function money(dataStr){
     breakTime=localStorage.getItem(breakKey)||0;
     actualWorkTime = workTime-breakTime;
     console.log(actualWorkTime);
-    salary = Math.round((actualWorkTime /1000/60)*(hourlyWage /60));
+    salary = Math.floor((actualWorkTime /1000/60)*(hourlyWage /60));
     return salary;
 };
 function buttonHold(button, actionFn) {
