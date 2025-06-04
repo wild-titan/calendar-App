@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="ja">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css.css">
+    <title>練習</title>
+</head>
+
+<body>
+    <div class="header" id="header">
+    </div>
+    <div id="banner">
+        <span id="updateTime">0時間0分0秒</span><span id="updateBreak">0時間0分0秒</span>
+    </div>
+    <div id="customPrompt" class="modal">
+        <div class="modalContent">
+            <span id="close" class="close">×</span>
+            <p id="promptText"></p>
+            <div class="workTimeCountainer">
+                <span>出勤</span><input type="time" class="workTime" id="workTime">
+                <span>休憩</span><input type="time" class="workTime" id="breakInput">
+            </div>
+            <textarea id="promptInput"></textarea>
+            <div class="modalButtonCountainer">
+                <button id="ok" class="modalButton">保存</button>
+                <button id="del" class="modalButton">削除</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div id="calendar"></div>
+        <div class="modal" id="menuModal"> <!--このモーダルの展開とボタンの機能実装まで-->>
+            <div class="modalContent">
+                <span class="close" id="menuClose">×</span>
+                <p>メニュー</p>
+                <div class="modalButtonCountainer">
+                    <div class="buttonGrid">
+                        <button class="menuModalButton" id="start">出勤</button>
+                        <button class="menuModalButton" id="end">退勤</button>
+                        <button class="menuModalButton" id="break">休憩開始</button>
+                        <button class="menuModalButton" id="breakEnd">休憩終了</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="calendarButtonCountainer">
+            <button class="calenderButton" id="back"><span>前</span></button>
+            <button class="calenderButton" id="menu"><span>メニュー</span></button>
+            <button class="calenderButton" id="next"><span>次</span></button>
+        </div>
+    </div>
+    <div class="footer">
+
+    </div>
+    <script src="java.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap');
+html{
+    font-size: clamp(8px, 2vw, 18px);
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    touch-action: manipulation;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+.header {
+    display:flex;
+    flex-direction: column;
+    background-color: #000000;
+    font-size: 2.5rem;
+    color:white;
+    justify-content: center;
+    height: 9vh;
+}
+p{
+    margin:0 6%;
+}
+#banner{
+    position: fixed;
+    top:1%;
+    left:50%;
+    transform: translateX(-50%);
+    width: 95%;
+    height:9%;
+    background-color: #ffffff;
+    color: #000;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    display: none; /* 初期状態では非表示 */
+    font-size: clamp(3.5px,3rem,50px);
+    border:5px #adadad solid;
+    border-radius: 40px;
+    opacity: 1;
+    gap:50px;
+    transition: opacity 0.5s ease;
+}
+#banner.banish{
+    opacity: 0;
+}
+.buttonGrid{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:15px;
+    margin-top: 15px;
+}
+.menuModalButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 10px #d8d8d8;
+    width:18rem;
+    height:clamp(2rem,15vh,6.5rem);
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: clamp(2rem,4.5vh,2rem);
+}
+
+.headerCountainer{
+    display :flex;
+}
+
+#monthlyWage{
+    right:0;
+    position:absolute;
+    right:25px;
+    color:#ffe44a
+}
+.dailyWage{
+    font-size: 1.8rem;
+}
+/*#region=====カレンダーテーブル=====*/
+table {
+    border-collapse: collapse;
+    text-align: center;
+    table-layout: fixed;
+    border-color: #d8d8d8;
+    width: 100vw;
+    height: 84vh;
+    margin: 0 auto;
+}
+
+th {
+    font-size: 3rem;
+    height: 7vh;
+}
+
+td {
+    vertical-align: middle;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 5vw;
+    cursor: pointer;
+}
+td:hover{
+    background-color: #adadad;
+}
+
+td:last-child:not(.Today),
+th:last-child {
+    color: royalblue
+}
+
+td:first-child:not(.Today),
+th:first-child {
+    color: red;
+}
+
+.Today {
+    color: rgb(236, 203, 12);
+}
+.calendarButtonCountainer{
+    display:flex;
+    align-items: center;
+    height:7vh;
+}
+.calenderButton{
+    flex:1;
+    height:100%;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: clamp(0px,3rem,5vh)
+}
+/*#endregion=====カレンダーテーブル=====*/
+/*#region=====モーダル=====*/
+.modal {
+    display: none;
+    /* 最初は非表示 */
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.close {
+    right: 1%;
+    top: 2%;
+    display: flex;
+    color: white;
+    background-color: rgb(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: clamp(30px,2.5rem,100px);
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    font-size: clamp(3.5px,2rem,30px);
+}
+
+.workTimeCountainer{
+    display: flex;
+    align-items: center;
+    font-size:2.2rem;
+    gap:6px;
+}
+
+input.workTime {
+    width: 13rem;
+    height: clamp(3.5px,3rem,50px);
+    font-size:clamp(3.5px,3rem,50px) ;
+}
+#breakInput{
+    background-color: rgb(201, 239, 250);
+}
+#promptText{
+    font-size:2rem;
+}
+
+.modalContent {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 3px #d8d8d8 solid;
+    padding: 0.5rem;
+    border-radius: 20px;
+    width: 40rem;
+    height: 20rem;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: clamp(3.5px,3rem,50px);
+}
+
+#promptInput {
+    width: 95%;
+    height: 60%;
+    font-size: 2rem;
+    margin-inline: auto;
+    margin:0.5rem 0;
+}
+
+.modalButtonCountainer/*モーダルのボタンの集合*/{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5rem;
+}
+
+.modalButton/*モーダルのボタン単体の設定*/{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 10px #d8d8d8;
+    width:15rem;
+    height:clamp(2rem,5vh,2.5rem);
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: clamp(2rem,4.5vh,2rem);
+}
+
+
+/*#endregion=====モーダル=====*/
