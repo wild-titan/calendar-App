@@ -205,7 +205,7 @@ function clockIn() {
         const getTime = new Date();
         localStorage.setItem("clockInTime", getTime.toISOString());
         localStorage.setItem("working", "true");
-        document.getElementById("updateBreak").textContent=`0時0間分0秒`
+        document.getElementById("updateBreak").textContent=`休憩 0時0間分0秒`
         showBanner();
     }else[
         alert("出勤済")
@@ -233,11 +233,10 @@ function updateTime() {
         const BdiffMs = now - breakInTime;
         const [Bhours,Bminutes]= MsToString(BdiffMs).split(":").map(Number)
         const Bseconds = Math.floor(BdiffMs/1000)%60;
-        document.getElementById("updateBreak").textContent=`${Bhours}時間${Bminutes}分${Bseconds}秒`
+        document.getElementById("updateBreak").textContent=`休憩 ${Bhours}時間${Bminutes}分${Bseconds}秒`
     }
-    
 
-    document.getElementById("updateTime").textContent = `${hours}時間${minutes}分${seconds}秒`
+    document.getElementById("updateTime").textContent = `出勤 ${hours}時間${minutes}分${seconds}秒`
 }
 function clockOut() {
     const currentWorkKey = `${currentYear}-${currentMonth + 1}-${today}-work`
@@ -245,7 +244,7 @@ function clockOut() {
     if (localStorage.getItem("working") == "true") {
         alert("退勤");
         const clockInTime = new Date(localStorage.getItem("clockInTime"));
-        const workingTime = getTime - clockInTime;
+        const workingTime = Math.floor((getTime - clockInTime)/60000)*60000;
         localStorage.setItem(currentWorkKey, workingTime);
         clearInterval(workStart);
         document.getElementById('banner').style.display = "none";
@@ -272,7 +271,7 @@ function breakEnd() {
         alert("休憩終了");
         const getTime = new Date();
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
-        const breakTime = getTime - breakInTime;
+        const breakTime = Math.floor((getTime - breakInTime)/60000)*60000;
         localStorage.setItem(currentBreakKey, breakTime);
         localStorage.setItem("breakFlg","false");
         localStorage.removeItem("breakInTime");
