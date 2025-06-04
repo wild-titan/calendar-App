@@ -1,11 +1,11 @@
 const cacheName = "v1";
 const assets = [
   "/",
-  "/index.html",
-  "/style.css",
-  "/java.js",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  "/calendar-App/index.html",
+  "/calendar-App/style.css",
+  "/calendar-App/java.js",
+  "/calendar-App/icons/icon-192.png",
+  "/calendar-App/icons/icon-512.png"
 ];
 
 self.addEventListener("install", e => {
