@@ -201,7 +201,7 @@ document.getElementById('banner').addEventListener("click",(event)=>{
 
 function clockIn() {
     if(localStorage.getItem("working")=="false"){
-        alert("start");
+        alert("出勤");
         const getTime = new Date();
         localStorage.setItem("clockInTime", getTime.toISOString());
         localStorage.setItem("working", "true");
@@ -269,7 +269,7 @@ function breakStart() {
 function breakEnd() {
     const currentBreakKey = `${currentYear}-${currentMonth + 1}-${today}-break`
     if (localStorage.getItem("breakFlg") == "true") {
-        alert("休憩終わり");
+        alert("休憩終了");
         const getTime = new Date();
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
         const breakTime = getTime - breakInTime;
@@ -277,7 +277,7 @@ function breakEnd() {
         localStorage.setItem("breakFlg","false");
         localStorage.removeItem("breakInTime");
     } else if(localStorage.getItem("working")=="true"){
-        alert("休憩中じゃない");
+        alert("未休憩");
     }
 };
 function MsToString(Ms) {
