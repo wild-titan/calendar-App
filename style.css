@@ -89,7 +89,7 @@ table {
     table-layout: fixed;
     border-color: #d8d8d8;
     width: 100vw;
-    height: 82vh;
+    height: 80vh;
     margin: 0 auto;
 }
 
@@ -124,7 +124,7 @@ th:first-child {
 .calendarButtonCountainer{
     display:flex;
     align-items: center;
-    height:9vh;
+    height:11vh;
 }
 .calenderButton{
     flex:1;
