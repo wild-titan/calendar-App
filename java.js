@@ -1,4 +1,4 @@
-const hourlyWage =1100;
+const hourlyWage = 1100;
 const week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const now = new Date();
 const today = now.getDate();
@@ -51,15 +51,15 @@ function createCalendar(Year, Month) {
     document.querySelector('#header').innerHTML = calendarHeadHTML
     addClick();
 }//カレンダーの再構成
-function money(dataStr){
+function money(dataStr) {
     console.log(dataStr)
-    workKey= `${dataStr}-work`
-    breakKey=`${dataStr}-break`
-    workTime=localStorage.getItem(workKey)||0;
-    breakTime=localStorage.getItem(breakKey)||0;
-    actualWorkTime = workTime-breakTime;
+    workKey = `${dataStr}-work`
+    breakKey = `${dataStr}-break`
+    workTime = localStorage.getItem(workKey) || 0;
+    breakTime = localStorage.getItem(breakKey) || 0;
+    actualWorkTime = workTime - breakTime;
     console.log(actualWorkTime);
-    salary = Math.floor((actualWorkTime /1000/60)*(hourlyWage /60));
+    salary = Math.floor((actualWorkTime / 1000 / 60) * (hourlyWage / 60));
     return salary;
 };
 function buttonHold(button, actionFn) {
@@ -128,12 +128,12 @@ function customPrompt(dateKey, currentMemo, workTimestrage, breakTimeStrage, cal
     document.getElementById('ok').onclick = () => {
         modal.style.display = 'none';
         callback(textarea.value, StringToMs(time.value), StringToMs(breakTime.value));
-        createCalendar(year,month);
+        createCalendar(year, month);
     };
     document.getElementById('del').onclick = () => {
         modal.style.display = 'none';
         callback(null);
-        createCalendar(year,month);
+        createCalendar(year, month);
     };
     document.getElementById('close').onclick = () => {
         modal.style.display = 'none';
@@ -154,7 +154,7 @@ function addClick() {
             const memo = localStorage.getItem(dateKey) || "";
             const work = localStorage.getItem(workKey) || "";
             const breakTime = localStorage.getItem(breakKey) || "";
-            customPrompt(dateKey, memo, work, breakTime, (result, timeResult,breakResult) => {
+            customPrompt(dateKey, memo, work, breakTime, (result, timeResult, breakResult) => {
                 if (result == null) {
                     localStorage.removeItem(dateKey);
                     localStorage.removeItem(workKey);
@@ -162,7 +162,7 @@ function addClick() {
                 } else {
                     localStorage.setItem(dateKey, result);
                     localStorage.setItem(workKey, timeResult);
-                    localStorage.setItem(breakKey,breakResult);
+                    localStorage.setItem(breakKey, breakResult);
                 }
             });
         });
@@ -192,22 +192,22 @@ function menuModal() {
 
 };
 
-document.getElementById('banner').addEventListener("click",(event)=>{
+document.getElementById('banner').addEventListener("click", (event) => {
     event.target.classList.add("banish");
     banishTimeOut = setTimeout(() => {
-    event.target.classList.remove("banish");
+        event.target.classList.remove("banish");
     }, 3000);
 });
 
 function clockIn() {
-    if(localStorage.getItem("working")=="false"){
+    if (localStorage.getItem("working") == "false") {
         alert("出勤");
         const getTime = new Date();
         localStorage.setItem("clockInTime", getTime.toISOString());
         localStorage.setItem("working", "true");
-        document.getElementById("updateBreak").textContent=`休憩 0時0間分0秒`
+        document.getElementById("updateBreak").textContent = `休憩 0時0間分0秒`
         showBanner();
-    }else[
+    } else[
         alert("出勤済")
     ]
 };
@@ -226,14 +226,14 @@ function updateTime() {
     const now = new Date();
     const diffMs = now - start;
     const diffSec = Math.floor(diffMs / 1000);
-    const [hours,minutes]= MsToString(diffMs).split(":").map(Number)
+    const [hours, minutes] = MsToString(diffMs).split(":").map(Number)
     const seconds = diffSec % 60;
-    if(localStorage.getItem("breakFlg")=="true"){/*!変数の頭にBつけてるよ！breakのB*/
+    if (localStorage.getItem("breakFlg") == "true") {/*!変数の頭にBつけてるよ！breakのB*/
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
         const BdiffMs = now - breakInTime;
-        const [Bhours,Bminutes]= MsToString(BdiffMs).split(":").map(Number)
-        const Bseconds = Math.floor(BdiffMs/1000)%60;
-        document.getElementById("updateBreak").textContent=`休憩 ${Bhours}時間${Bminutes}分${Bseconds}秒`
+        const [Bhours, Bminutes] = MsToString(BdiffMs).split(":").map(Number)
+        const Bseconds = Math.floor(BdiffMs / 1000) % 60;
+        document.getElementById("updateBreak").textContent = `休憩 ${Bhours}時間${Bminutes}分${Bseconds}秒`
     }
 
     document.getElementById("updateTime").textContent = `出勤 ${hours}時間${minutes}分${seconds}秒`
@@ -244,7 +244,7 @@ function clockOut() {
     if (localStorage.getItem("working") == "true") {
         alert("退勤");
         const clockInTime = new Date(localStorage.getItem("clockInTime"));
-        const workingTime = Math.floor((getTime - clockInTime)/60000)*60000;
+        const workingTime = Math.floor((getTime - clockInTime) / 60000) * 60000;
         localStorage.setItem(currentWorkKey, workingTime);
         clearInterval(workStart);
         document.getElementById('banner').style.display = "none";
@@ -271,12 +271,10 @@ function breakEnd() {
         alert("休憩終了");
         const getTime = new Date();
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
-        const breakTime = Math.floor((getTime - breakInTime)/60000)*60000;
+        const breakTime = Math.floor((getTime - breakInTime) / 60000) * 60000;
         localStorage.setItem(currentBreakKey, breakTime);
-        localStorage.setItem("breakFlg","false");
+        localStorage.setItem("breakFlg", "false");
         localStorage.removeItem("breakInTime");
-    } else if(localStorage.getItem("working")=="true"){
-        alert("未休憩");
     }
 };
 function MsToString(Ms) {
@@ -298,19 +296,27 @@ window.onload = function () {
     }
 };
 document.getElementById("start").addEventListener("click", clockIn);
-document.getElementById("end").addEventListener("click",()=>{ 
+document.getElementById("end").addEventListener("click", () => {
     clockOut();
-    createCalendar(year,month);
+    createCalendar(year, month);
 });
 document.getElementById("break").addEventListener("click", breakStart);
-document.getElementById("breakEnd").addEventListener("click", breakEnd);
+document.getElementById("breakEnd").addEventListener("click", () => {
+    if (localStorage.getItem("breakFlg") == "true") {
+        breakEnd();
+    } else if(localStorage.getItem("working")=="true") {
+        alert("未休憩");
+    }else{
+        alert("未出勤");
+    }
+});
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/calendar-App/service-worker.js").then(reg => {
-      console.log("Service Worker registered", reg);
-    }).catch(err => {
-      console.error("Service Worker registration failed:", err);
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/calendar-App/service-worker.js").then(reg => {
+            console.log("Service Worker registered", reg);
+        }).catch(err => {
+            console.error("Service Worker registration failed:", err);
+        });
     });
-  });
 }
