@@ -40,7 +40,7 @@ p{
     justify-content: center;
     z-index: 1000;
     display: none; /* 初期状態では非表示 */
-    font-size: clamp(3.5px,3rem,50px);
+    font-size: clamp(3.5px,2.3rem,50px);
     border:5px #adadad solid;
     border-radius: 40px;
     opacity: 1;
