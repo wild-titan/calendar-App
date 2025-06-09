@@ -300,6 +300,10 @@ window.onload = function () {
     } else {
         localStorage.setItem("working", "false");
     }
+
+   if(!localStorage.getItem("breakFlg")){
+    localStorage.setItem("breakFlg","false")
+   }
 };
 document.getElementById("start").addEventListener("click", clockIn);
 document.getElementById("end").addEventListener("click", () => {
