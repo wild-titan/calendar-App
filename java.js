@@ -29,13 +29,13 @@ function createCalendar(Year, Month) {
             } else if (DayCount > endDayCount) {
                 calendarHTML += '<td></td>'
             } else if (DayCount == today && currentMonth == Month && currentYear == Year) {
-                const dataStr = `${Year}-${Month + 1}-${DayCount}`
+                const dataStr = `${Year}-${String(Month + 1).padStart(2, '0')}-${String(DayCount).padStart(2, '0')}`
                 const wage = money(dataStr);
                 monthlyWage += wage
                 calendarHTML += `<td class="Today" data-date="${dataStr}">${DayCount}<br><small class="dailyWage">¥${wage.toLocaleString()}</small></td>`
                 DayCount++
             } else {
-                const dataStr = `${Year}-${Month + 1}-${DayCount}`
+                const dataStr = `${Year}-${String(Month + 1).padStart(2, '0')}-${String(DayCount).padStart(2, '0')}`
                 const wage = money(dataStr);
                 monthlyWage += wage
                 calendarHTML += `<td data-date="${dataStr}">${DayCount}<br><small class="dailyWage">¥${wage.toLocaleString()}</small></td>`
@@ -52,16 +52,26 @@ function createCalendar(Year, Month) {
     addClick();
 }//カレンダーの再構成
 function money(dataStr) {
-    console.log(dataStr)
-    workKey = `${dataStr}-work`
-    breakKey = `${dataStr}-break`
-    workTime = localStorage.getItem(workKey) || 0;
-    breakTime = localStorage.getItem(breakKey) || 0;
-    actualWorkTime = workTime - breakTime;
+    const data = getDateData(dataStr);
+    const workTime = data.work || 0;
+    const breakTime = data.break || 0;
+    const actualWorkTime = workTime - breakTime;
     console.log(actualWorkTime);
-    salary = Math.floor((actualWorkTime / 1000 / 60) * (hourlyWage / 60));
+    const salary = Math.floor((actualWorkTime / 1000 / 60) * (hourlyWage / 60));
     return salary;
 };
+
+function getDateData(datakey){
+    const item = localStorage.getItem(datakey);
+    return item ? JSON.parse(localStorage.getItem(datakey)) : {};
+};
+
+function setDateData(datakey,newData){
+    const exsistingData = getDateData(datakey);
+    const updatedData = {...exsistingData,...newData}
+    localStorage.setItem(datakey,JSON.stringify(updatedData));
+}
+
 function buttonHold(button, actionFn) {
     let timeOutID = null;
     let intervalID = null;
@@ -111,23 +121,24 @@ buttonHold(back, function () {
     createCalendar(year, month)
 })
 
-function customPrompt(dateKey, currentMemo, workTimestrage, breakTimeStrage, callback) {
+function customPrompt(dateKey,data, callback) {
     const modal = document.getElementById('customPrompt');
     const time = document.getElementById('workTime');
     const breakTime = document.getElementById('breakInput');
     const textarea = document.getElementById('promptInput');
     const text = document.getElementById('promptText');
 
-    textarea.value = currentMemo;
-    time.value = MsToString(workTimestrage);
-    breakTime.value = MsToString(breakTimeStrage);
+    textarea.value = data.memo || "";
+    time.value = MsToString(data.work);
+    breakTime.value = MsToString(data.break);
     text.textContent = `${dateKey}のメモ`;
     modal.style.display = 'flex';
 
 
     document.getElementById('ok').onclick = () => {
         modal.style.display = 'none';
-        callback(textarea.value, StringToMs(time.value), StringToMs(breakTime.value));
+        const updatedData = {...data,memo:textarea.value,work:StringToMs(time.value),break:StringToMs(breakTime.value)}
+        callback(updatedData);
         createCalendar(year, month);
     };
     document.getElementById('del').onclick = () => {
@@ -149,20 +160,12 @@ function addClick() {
     document.querySelectorAll('td[data-date]').forEach(cell => {
         cell.addEventListener('click', () => {
             const dateKey = cell.getAttribute('data-date');
-            const workKey = `${dateKey}-work`
-            const breakKey = `${dateKey}-break`
-            const memo = localStorage.getItem(dateKey) || "";
-            const work = localStorage.getItem(workKey) || "";
-            const breakTime = localStorage.getItem(breakKey) || "";
-            customPrompt(dateKey, memo, work, breakTime, (result, timeResult, breakResult) => {
+            const data = getDateData(dateKey) || {};
+            customPrompt(dateKey, data, (result) => {
                 if (result == null) {
                     localStorage.removeItem(dateKey);
-                    localStorage.removeItem(workKey);
-                    localStorage.removeItem(breakKey);
                 } else {
-                    localStorage.setItem(dateKey, result);
-                    localStorage.setItem(workKey, timeResult);
-                    localStorage.setItem(breakKey, breakResult);
+                    setDateData(dateKey,{...result})
                 }
             });
         });
@@ -239,13 +242,13 @@ function updateTime() {
     document.getElementById("updateTime").textContent = `出勤 ${hours}時間${minutes}分${seconds}秒`
 }
 function clockOut() {
-    const currentWorkKey = `${currentYear}-${currentMonth + 1}-${today}-work`
+    const currentKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`
     const getTime = new Date();
     if (localStorage.getItem("working") == "true") {
         alert("退勤");
         const clockInTime = new Date(localStorage.getItem("clockInTime"));
         const workingTime = Math.floor((getTime - clockInTime) / 60000) * 60000;
-        localStorage.setItem(currentWorkKey, workingTime);
+        setDateData(currentKey,{work:workingTime});
         clearInterval(workStart);
         document.getElementById('banner').style.display = "none";
         localStorage.setItem("working", "false");
@@ -266,13 +269,13 @@ function breakStart() {
     }
 };
 function breakEnd() {
-    const currentBreakKey = `${currentYear}-${currentMonth + 1}-${today}-break`
+    const currentKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`
     if (localStorage.getItem("breakFlg") == "true") {
         alert("休憩終了");
         const getTime = new Date();
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
         const breakTime = Math.floor((getTime - breakInTime) / 60000) * 60000;
-        localStorage.setItem(currentBreakKey, breakTime);
+        setDateData(currentKey,{break:breakTime});
         localStorage.setItem("breakFlg", "false");
         localStorage.removeItem("breakInTime");
     }
