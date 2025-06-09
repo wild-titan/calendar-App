@@ -16,13 +16,6 @@
 </head>
 
 <body>
-    <p id="storageDump"></p>
-    <script>
-        const dump = Object.entries(localStorage)
-            .map(([k, v]) => `${k}: ${v}`)
-            .join("\n");
-        document.getElementById("storageDump").textContent = dump;
-    </script>
     <div class="header" id="header">
     </div>
     <div id="banner">

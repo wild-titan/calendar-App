@@ -129,8 +129,8 @@ function customPrompt(dateKey,data, callback) {
     const text = document.getElementById('promptText');
 
     textarea.value = data.memo || "";
-    time.value = MsToString(data.work) ||"00:00";
-    breakTime.value = MsToString(data.break) || "00:00";
+    time.value = MsToString(data.work);
+    breakTime.value = MsToString(data.break);
     text.textContent = `${dateKey}のメモ`;
     modal.style.display = 'flex';
 
@@ -281,6 +281,9 @@ function breakEnd() {
     }
 };
 function MsToString(Ms) {
+    if(!Ms){
+        return "00:00"
+    }
     const Minutes = Math.floor(Ms / 60000);
     const hours = String(Math.floor(Minutes / 60)).padStart(2, "0");
     const minutes = String(Math.floor(Minutes % 60)).padStart(2, "0");
@@ -322,8 +325,4 @@ if ("serviceWorker" in navigator) {
             console.error("Service Worker registration failed:", err);
         });
     });
-}
-
-window.onload = () => {
-  localStorage.clear();
 }
