@@ -324,3 +324,6 @@ if ("serviceWorker" in navigator) {
     });
 }
 
+window.onload = () => {
+  localStorage.clear();
+}
