@@ -129,8 +129,8 @@ function customPrompt(dateKey,data, callback) {
     const text = document.getElementById('promptText');
 
     textarea.value = data.memo || "";
-    time.value = MsToString(data.work);
-    breakTime.value = MsToString(data.break);
+    time.value = MsToString(data.work) ||"00:00";
+    breakTime.value = MsToString(data.break) || "00:00";
     text.textContent = `${dateKey}のメモ`;
     modal.style.display = 'flex';
 
