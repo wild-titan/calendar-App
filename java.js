@@ -7,6 +7,8 @@ const currentYear = now.getFullYear();
 let month = currentMonth
 let year = currentYear
 function createCalendar(Year, Month) {
+    document.getElementById("calendar").innerHTML = "";
+    document.getElementById("header").innerHTML = "";
     let monthlyWage = 0;
     const firstDate = new Date(Year, Month, 1);
     const endDate = new Date(Year, Month + 1, 0);
@@ -30,14 +32,14 @@ function createCalendar(Year, Month) {
     headerDiv.appendChild(headerCountainerP);
 
     const table = document.createElement("table")
-    table.setAttribute("border","1");
+    table.setAttribute("border", "1");
     fragment.appendChild(table);
 
     for (let i = 0; i < 7; i++) {
         const th = document.createElement("th")
         th.textContent = week[i]
         table.appendChild(th)
-        }
+    }
     for (let w = 0; w < Math.ceil((firstDay + endDayCount) / 7); w++) {
         const tr = document.createElement("tr")
         table.appendChild(tr)
@@ -48,7 +50,7 @@ function createCalendar(Year, Month) {
             } else if (dayCount > endDayCount) {
                 const td = document.createElement("td");
                 tr.appendChild(td);
-            } else{
+            } else {
                 const dataStr = `${Year}-${String(Month + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`
                 const wage = money(dataStr);
                 monthlyWage += wage
@@ -56,7 +58,7 @@ function createCalendar(Year, Month) {
                 const td = document.createElement("td");
                 td.dataset.date = dataStr
                 td.textContent = dayCount
-                if(dataStr==`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`){
+                if (dataStr == `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`) {
                     td.classList.add("Today")
                 }
 
@@ -65,11 +67,11 @@ function createCalendar(Year, Month) {
                 const small = document.createElement("small");
                 small.classList.add("dailyWage")
                 small.textContent = `¥${wage.toLocaleString()}`
-                td.appendChild(small)
+                td.appendChild(small);
 
-                tr.appendChild(td)
+                tr.appendChild(td);
                 dayCount++
-             }
+            }
         }
     }
     const pWage = document.createElement("p");
@@ -90,15 +92,15 @@ function money(dataStr) {
     return salary;
 };
 
-function getDateData(datakey){
+function getDateData(datakey) {
     const item = localStorage.getItem(datakey);
     return item ? JSON.parse(localStorage.getItem(datakey)) : {};
 };
 
-function setDateData(datakey,newData){
+function setDateData(datakey, newData) {
     const exsistingData = getDateData(datakey);
-    const updatedData = {...exsistingData,...newData}
-    localStorage.setItem(datakey,JSON.stringify(updatedData));
+    const updatedData = { ...exsistingData, ...newData }
+    localStorage.setItem(datakey, JSON.stringify(updatedData));
 }
 
 function buttonHold(button, actionFn) {
@@ -150,7 +152,7 @@ buttonHold(back, function () {
     createCalendar(year, month)
 })
 
-function customPrompt(dateKey,data, callback) {
+function customPrompt(dateKey, data, callback) {
     const modal = document.getElementById('customPrompt');
     const time = document.getElementById('workTime');
     const breakTime = document.getElementById('breakInput');
@@ -166,7 +168,7 @@ function customPrompt(dateKey,data, callback) {
 
     document.getElementById('ok').onclick = () => {
         modal.style.display = 'none';
-        const updatedData = {...data,memo:textarea.value,work:StringToMs(time.value),break:StringToMs(breakTime.value)}
+        const updatedData = { ...data, memo: textarea.value, work: StringToMs(time.value), break: StringToMs(breakTime.value) }
         callback(updatedData);
         createCalendar(year, month);
     };
@@ -194,7 +196,7 @@ function addClick() {
                 if (result == null) {
                     localStorage.removeItem(dateKey);
                 } else {
-                    setDateData(dateKey,{...result})
+                    setDateData(dateKey, { ...result })
                 }
             });
         });
@@ -277,7 +279,7 @@ function clockOut() {
         alert("退勤");
         const clockInTime = new Date(localStorage.getItem("clockInTime"));
         const workingTime = Math.floor((getTime - clockInTime) / 60000) * 60000;
-        setDateData(currentKey,{work:workingTime});
+        setDateData(currentKey, { work: workingTime });
         clearInterval(workStart);
         document.getElementById('banner').style.display = "none";
         localStorage.setItem("working", "false");
@@ -304,13 +306,13 @@ function breakEnd() {
         const getTime = new Date();
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
         const breakTime = Math.floor((getTime - breakInTime) / 60000) * 60000;
-        setDateData(currentKey,{break:breakTime});
+        setDateData(currentKey, { break: breakTime });
         localStorage.setItem("breakFlg", "false");
         localStorage.removeItem("breakInTime");
     }
 };
 function MsToString(Ms) {
-    if(!Ms){
+    if (!Ms) {
         return "00:00"
     }
     const Minutes = Math.floor(Ms / 60000);
@@ -330,9 +332,9 @@ window.onload = function () {
         localStorage.setItem("working", "false");
     }
 
-   if(!localStorage.getItem("breakFlg")){
-    localStorage.setItem("breakFlg","false")
-   }
+    if (!localStorage.getItem("breakFlg")) {
+        localStorage.setItem("breakFlg", "false")
+    }
 };
 document.getElementById("start").addEventListener("click", clockIn);
 document.getElementById("end").addEventListener("click", () => {
@@ -343,9 +345,9 @@ document.getElementById("break").addEventListener("click", breakStart);
 document.getElementById("breakEnd").addEventListener("click", () => {
     if (localStorage.getItem("breakFlg") == "true") {
         breakEnd();
-    } else if(localStorage.getItem("working")=="true") {
+    } else if (localStorage.getItem("working") == "true") {
         alert("未休憩");
-    }else{
+    } else {
         alert("未出勤");
     }
 });
