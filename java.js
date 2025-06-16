@@ -12,43 +12,72 @@ function createCalendar(Year, Month) {
     const endDate = new Date(Year, Month + 1, 0);
     const firstDay = firstDate.getDay();
     const endDayCount = endDate.getDate();
-    let DayCount = 1
-    let calendarHTML = ""
-    let calendarHeadHTML = ""
-    calendarHeadHTML += `<p>今日は${currentYear}年${currentMonth + 1}月${today}日</p>`
-    calendarHeadHTML += `<div class="headerCountainer"><p>${Year}年${Month + 1}月</p>`
-    calendarHTML += '<table border=1>'
+    let dayCount = 1
+    const parent = document.getElementById("calendar")
+    const header = document.getElementById("header")
+    const fragment = document.createDocumentFragment();
+
+    const headerP = document.createElement("p")
+    headerP.textContent = `今日は${currentYear}年${currentMonth + 1}月${today}日`;
+    header.appendChild(headerP);
+
+    const headerDiv = document.createElement("div");
+    headerDiv.classList.add("headerCountainer");
+    header.appendChild(headerDiv);
+
+    const headerCountainerP = document.createElement("p");
+    headerCountainerP.textContent = `${Year}年${Month + 1}月`
+    headerDiv.appendChild(headerCountainerP);
+
+    const table = document.createElement("table")
+    table.setAttribute("border","1");
+    fragment.appendChild(table);
+
     for (let i = 0; i < 7; i++) {
-        calendarHTML += '<th>' + week[i] + '</th>'
-    }
+        const th = document.createElement("th")
+        th.textContent = week[i]
+        table.appendChild(th)
+        }
     for (let w = 0; w < Math.ceil((firstDay + endDayCount) / 7); w++) {
-        calendarHTML += '<tr>'
+        const tr = document.createElement("tr")
+        table.appendChild(tr)
         for (let d = 0; d < 7; d++) {
             if (w == 0 && d < firstDay) {
-                calendarHTML += '<td></td>'
-            } else if (DayCount > endDayCount) {
-                calendarHTML += '<td></td>'
-            } else if (DayCount == today && currentMonth == Month && currentYear == Year) {
-                const dataStr = `${Year}-${String(Month + 1).padStart(2, '0')}-${String(DayCount).padStart(2, '0')}`
+                const td = document.createElement("td");
+                tr.appendChild(td);
+            } else if (dayCount > endDayCount) {
+                const td = document.createElement("td");
+                tr.appendChild(td);
+            } else{
+                const dataStr = `${Year}-${String(Month + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`
                 const wage = money(dataStr);
                 monthlyWage += wage
-                calendarHTML += `<td class="Today" data-date="${dataStr}">${DayCount}<br><small class="dailyWage">¥${wage.toLocaleString()}</small></td>`
-                DayCount++
-            } else {
-                const dataStr = `${Year}-${String(Month + 1).padStart(2, '0')}-${String(DayCount).padStart(2, '0')}`
-                const wage = money(dataStr);
-                monthlyWage += wage
-                calendarHTML += `<td data-date="${dataStr}">${DayCount}<br><small class="dailyWage">¥${wage.toLocaleString()}</small></td>`
-                DayCount++
-            }
 
+                const td = document.createElement("td");
+                td.dataset.date = dataStr
+                td.textContent = dayCount
+                if(dataStr==`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`){
+                    td.classList.add("Today")
+                }
+
+                td.appendChild(document.createElement("br"));
+
+                const small = document.createElement("small");
+                small.classList.add("dailyWage")
+                small.textContent = `¥${wage.toLocaleString()}`
+                td.appendChild(small)
+
+                tr.appendChild(td)
+                dayCount++
+             }
         }
-        calendarHTML += '</tr>'
     }
-    calendarHeadHTML += `<p id="monthlyWage">${monthlyWage.toLocaleString()} 円</p></div>`
-    calendarHTML += '</table>'
-    document.querySelector('#calendar').innerHTML = calendarHTML
-    document.querySelector('#header').innerHTML = calendarHeadHTML
+    const pWage = document.createElement("p");
+    pWage.id = "monthlyWage";
+    pWage.textContent = `${monthlyWage.toLocaleString()} 円`
+    headerDiv.appendChild(pWage);
+
+    parent.appendChild(fragment);
     addClick();
 }//カレンダーの再構成
 function money(dataStr) {
