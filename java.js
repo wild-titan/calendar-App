@@ -35,10 +35,13 @@ function createCalendar(Year, Month) {
     table.setAttribute("border", "1");
     fragment.appendChild(table);
 
+    const weekTr = document.createElement("tr");
+    table.appendChild(weekTr);
+
     for (let i = 0; i < 7; i++) {
         const th = document.createElement("th")
         th.textContent = week[i]
-        table.appendChild(th)
+        weekTr.appendChild(th)
     }
     for (let w = 0; w < Math.ceil((firstDay + endDayCount) / 7); w++) {
         const tr = document.createElement("tr")
