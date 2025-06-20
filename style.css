@@ -104,15 +104,16 @@ td:hover{
     background-color: #adadad;
 }
 
-.memo:before{
-    display:block;
-    content:"";
+.ribbon{
     width: 100%;
-    height:10%;
+    height:15%;
     margin:auto;
     position:absolute;
     background-color:rgb(60, 209, 251);
     top:0;
+    font-size: 25px;
+    color: #ffffff;
+    text-align: center;
 }
 
 td:last-child:not(.Today),

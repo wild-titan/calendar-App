@@ -66,7 +66,15 @@ function createCalendar(Year, Month) {
                 }
                 const data = getDateData(dataStr);
                 if(data.memo && data.memo.trim()!==""){
-                    td.classList.add("memo")
+                    const ribbon = document.createElement("div");
+                    const memoText = data.memo
+                    ribbon.classList.add("ribbon")
+                    if(memoText.length > 4){
+                    ribbon.textContent = memoText.slice(0,4)+"..."
+                    }else{
+                    ribbon.textContent = memoText
+                    }
+                    td.insertAdjacentElement("afterbegin",ribbon);
                 }
                 td.appendChild(document.createElement("br"));
 
