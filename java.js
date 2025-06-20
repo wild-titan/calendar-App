@@ -271,13 +271,12 @@ document.getElementById('banner').addEventListener("click", (event) => {
 });
 
 function clockIn() {
-        alert("出勤");
         const getTime = new Date();
         localStorage.setItem("clockInTime", getTime.toISOString());
         localStorage.setItem("working", "true");
         document.getElementById("updateBreak").textContent = `休憩 0時0間分0秒`
         showBanner();
-
+        alert("出勤");
 };
 
 function showBanner() {
@@ -310,7 +309,6 @@ function clockOut() {
     const currentKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`
     const getTime = new Date();
     if (localStorage.getItem("working") == "true") {
-        alert("退勤");
         const clockInTime = new Date(localStorage.getItem("clockInTime"));
         const workingTime = Math.floor((getTime - clockInTime) / 60000) * 60000;
         setDateData(currentKey, { work: workingTime });
@@ -318,27 +316,28 @@ function clockOut() {
         document.getElementById('banner').style.display = "none";
         localStorage.setItem("working", "false");
         localStorage.removeItem("clockInTime");
+        alert("退勤");
         breakEnd();
     } else {
         alert("未出勤")
     }
 };
 function breakStart() {
-        alert("休憩開始")
         const getTime = new Date();
         localStorage.setItem("breakInTime", getTime.toISOString());
         localStorage.setItem("breakFlg", "true");
+        alert("休憩開始")
 };
 function breakEnd() {
     const currentKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`
     if (localStorage.getItem("breakFlg") == "true") {
-        alert("休憩終了");
         const getTime = new Date();
         const breakInTime = new Date(localStorage.getItem("breakInTime"));
         const breakTime = Math.floor((getTime - breakInTime) / 60000) * 60000;
         setDateData(currentKey, { break: breakTime });
         localStorage.setItem("breakFlg", "false");
         localStorage.removeItem("breakInTime");
+        alert("休憩終了");
     }
 };
 function MsToString(Ms) {
