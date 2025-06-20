@@ -94,6 +94,7 @@ th {
 }
 
 td {
+    position:relative;
     vertical-align: middle;
     font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: 5vw;
@@ -101,6 +102,17 @@ td {
 }
 td:hover{
     background-color: #adadad;
+}
+
+.memo:before{
+    display:block;
+    content:"";
+    width: 100%;
+    height:10%;
+    margin:auto;
+    position:absolute;
+    background-color:rgb(60, 209, 251);
+    top:0;
 }
 
 td:last-child:not(.Today),
@@ -133,6 +145,7 @@ th:first-child {
 /*#endregion=====カレンダーテーブル=====*/
 /*#region=====モーダル=====*/
 .modal {
+    z-index: 9999;
     display: none;
     /* 最初は非表示 */
     position: fixed;

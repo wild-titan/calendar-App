@@ -64,7 +64,10 @@ function createCalendar(Year, Month) {
                 if (dataStr == `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`) {
                     td.classList.add("Today")
                 }
-
+                const data = getDateData(dataStr);
+                if(data.memo && data.memo.trim()!==""){
+                    td.classList.add("memo")
+                }
                 td.appendChild(document.createElement("br"));
 
                 const small = document.createElement("small");
