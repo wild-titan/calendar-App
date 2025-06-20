@@ -40,22 +40,18 @@
     <div class="main">
         <div id="calendar"></div>
         <div class="modal" id="menuModal"> 
-            <div class="modalContent">
+            <div class="modalContent" id="menuContent">
                 <span class="close" id="menuClose">×</span>
-                <p>メニュー</p>
-                <div class="modalButtonCountainer">
-                    <div class="buttonGrid">
-                        <button class="menuModalButton" id="start">出勤</button>
+                <p>勤怠</p>
+                <div class="modalButtonCountainer" id="menuCountainer">
                         <button class="menuModalButton" id="end">退勤</button>
-                        <button class="menuModalButton" id="break">休憩開始</button>
-                        <button class="menuModalButton" id="breakEnd">休憩終了</button>
-                    </div>
+                        <button class="menuModalButton" id="break"></button>
                 </div>
             </div>
         </div>
         <div class="calendarButtonCountainer">
             <button class="calenderButton" id="back"><span>前</span></button>
-            <button class="calenderButton" id="menu"><span>メニュー</span></button>
+            <button class="calenderButton" id="menu"><span id="menuSpan"></span></button>
             <button class="calenderButton" id="next"><span>次</span></button>
         </div>
     </div>

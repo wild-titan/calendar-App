@@ -207,7 +207,38 @@ function addClick() {
 }
 createCalendar(currentYear, currentMonth);
 
-document.getElementById("menu").addEventListener("click", menuModal)
+const menuSpan = document.getElementById("menuSpan");
+const breakButton = document.getElementById("break");
+
+document.getElementById("menu").addEventListener("click",() =>{
+    if(localStorage.getItem("working")=="false"){
+        clockIn();
+        menuSpan.textContent = "出勤中"
+    }else if(localStorage.getItem("working")=="true"){
+        if(localStorage.getItem("breakFlg")=="false"){
+            breakButton.textContent ="休憩"
+        }else{
+            breakButton.textContent ="休憩終了"
+        }
+        menuModal();
+    }
+})
+
+document.getElementById("end").addEventListener("click", () => {
+    menuSpan.textContent = "出勤"
+    clockOut();
+    createCalendar(year, month);
+});
+document.getElementById("break").addEventListener("click", event =>{
+    if(localStorage.getItem("breakFlg")=="false"){
+        breakStart();
+        event.target.textContent = "休憩終了"
+    }else{
+        breakEnd();
+        event.target.textContent = "休憩"
+    }
+})
+
 
 function menuModal() {
     const menuModal = document.getElementById("menuModal");
@@ -237,16 +268,13 @@ document.getElementById('banner').addEventListener("click", (event) => {
 });
 
 function clockIn() {
-    if (localStorage.getItem("working") == "false") {
         alert("出勤");
         const getTime = new Date();
         localStorage.setItem("clockInTime", getTime.toISOString());
         localStorage.setItem("working", "true");
         document.getElementById("updateBreak").textContent = `休憩 0時0間分0秒`
         showBanner();
-    } else[
-        alert("出勤済")
-    ]
+
 };
 
 function showBanner() {
@@ -293,14 +321,10 @@ function clockOut() {
     }
 };
 function breakStart() {
-    if (localStorage.getItem("working") == "true") {
         alert("休憩開始")
         const getTime = new Date();
         localStorage.setItem("breakInTime", getTime.toISOString());
         localStorage.setItem("breakFlg", "true");
-    } else {
-        alert("未出勤");
-    }
 };
 function breakEnd() {
     const currentKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(today).padStart(2, '0')}`
@@ -330,8 +354,10 @@ function StringToMs(TimeString) {
 window.onload = function () {
     const isWorking = localStorage.getItem("working");
     if (isWorking == "true") {
+        menuSpan.textContent ="出勤中"
         showBanner();
     } else {
+        menuSpan.textContent ="出勤"
         localStorage.setItem("working", "false");
     }
 
@@ -339,21 +365,7 @@ window.onload = function () {
         localStorage.setItem("breakFlg", "false")
     }
 };
-document.getElementById("start").addEventListener("click", clockIn);
-document.getElementById("end").addEventListener("click", () => {
-    clockOut();
-    createCalendar(year, month);
-});
-document.getElementById("break").addEventListener("click", breakStart);
-document.getElementById("breakEnd").addEventListener("click", () => {
-    if (localStorage.getItem("breakFlg") == "true") {
-        breakEnd();
-    } else if (localStorage.getItem("working") == "true") {
-        alert("未休憩");
-    } else {
-        alert("未出勤");
-    }
-});
+
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
